@@ -1,6 +1,7 @@
 from openai import AsyncOpenAI
 from groq import AsyncGroq
 from langchain_groq import ChatGroq
+# from test.tool.tools import add,add_appointment,check_doctor_availability,get_current_datetime_ist
 from test.tool.tools import add,book_appointment,add_appointment,view_appointments,view_doctor_schedule
 from test.llm.prompt import prompt
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage,SystemMessage
@@ -17,7 +18,12 @@ llm = ChatGroq(
 )
 
 # Bind tools
+# llm_with_tools = llm.bind_tools([ check_doctor_availability,
+#     add_appointment,
+#     get_current_datetime_ist])
+
 llm_with_tools = llm.bind_tools([add_appointment,view_appointments,view_doctor_schedule])
+
 
 async def generate_response(memory):
 
@@ -97,6 +103,18 @@ async def generate_response(memory):
     #OPTION 3
     response = await llm_with_tools.ainvoke(memory)
     memory.append(response)
+
+    if response.tool_calls:
+        tool_call = response.tool_calls[0]
+
+        # if tool_call["name"] == "add_appointment":
+        #     result = add_appointment.invoke(tool_call["args"])
+        # elif tool_call["name"] == "get_current_datetime_ist":
+        #     result = get_current_datetime_ist.invoke(tool_call["args"])
+        # elif tool_call["name"] == "check_doctor_availability":
+        #     result = check_doctor_availability.invoke(tool_call["args"])
+        # else:
+        #     result = f"Unknown tool: {tool_call['name']}
 
     if response.tool_calls:
         tool_call = response.tool_calls[0]
