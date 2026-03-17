@@ -63,7 +63,7 @@ def _speak_blocking(text: str):
 # import soundfile as sf
 # import sounddevice as sd
 
-# client = ElevenLabs(api_key="sk_a557945339f46ccef9017ae4b4bc88b0f6d7d598317d5c33")
+# client = ElevenLabs(api_key="YOUR_ELEVENLABS_API_KEY")
 
 # VOICE_ID = "jUjRbhZWoMK4aDciW36V"  # Rachel voice
 
